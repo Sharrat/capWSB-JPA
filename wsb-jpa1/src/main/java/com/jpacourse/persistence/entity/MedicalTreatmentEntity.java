@@ -19,7 +19,7 @@ public class MedicalTreatmentEntity {
 	private TreatmentType type;
 
 	@ManyToOne
-	@JoinColumn(name = "visit_id")
+	@JoinColumn(name = "visit_id", nullable = false) // Relacja dwustronna z visit
 	private VisitEntity visit;
 
 	public Long getId() {

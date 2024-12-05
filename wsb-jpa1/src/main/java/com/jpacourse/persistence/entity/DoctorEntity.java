@@ -31,7 +31,7 @@ public class DoctorEntity {
 	private Specialization specialization;
 
 	@OneToOne
-	@JoinColumn(name = "address_id")
+	@JoinColumn(name = "address_id", nullable = false) // Relacja jednostronna ze strony dziecka z address
 	private AddressEntity doctorAddress;
 
 	public Long getId() {

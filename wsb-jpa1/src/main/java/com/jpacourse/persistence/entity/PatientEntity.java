@@ -30,7 +30,7 @@ public class PatientEntity {
 	private LocalDate dateOfBirth;
 
 	@OneToOne
-	@JoinColumn(name = "address_id")
+	@JoinColumn(name = "address_id", nullable = false) // Relacja jednostronna ze strony dziecka z address
 	private AddressEntity patientAddress;
 
 	public Long getId() {
