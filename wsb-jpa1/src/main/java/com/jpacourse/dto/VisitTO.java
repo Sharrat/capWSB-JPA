@@ -1,34 +1,21 @@
-package com.jpacourse.persistence.entity;
+package com.jpacourse.dto;
 
-import javax.persistence.*;
+import com.jpacourse.persistence.entity.DoctorEntity;
+import com.jpacourse.persistence.entity.MedicalTreatmentEntity;
+import com.jpacourse.persistence.entity.PatientEntity;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "VISIT")
-public class VisitEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class VisitTO {
     private Long id;
-
     private String description;
-
-    @Column(nullable = false)
     private LocalDateTime time;
-
-    @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false) // Relacja dwustronna z patient
-    private PatientEntity patient;
-
-    @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false) // Relacja jednostronna ze strony dziecka z doctor
     private DoctorEntity doctor;
-
-    @OneToMany(mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
-    // Relacja dwustronna z medicalTreatment
+    private PatientEntity patient;
     private List<MedicalTreatmentEntity> treatments = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -54,14 +41,6 @@ public class VisitEntity {
         this.time = time;
     }
 
-    public List<MedicalTreatmentEntity> getTreatments() {
-        return treatments;
-    }
-
-    public void setTreatments(List<MedicalTreatmentEntity> treatments) {
-        this.treatments = treatments;
-    }
-
     public DoctorEntity getDoctor() {
         return doctor;
     }
@@ -77,5 +56,14 @@ public class VisitEntity {
     public void setPatient(PatientEntity patient) {
         this.patient = patient;
     }
+
+    public List<MedicalTreatmentEntity> getTreatments() {
+        return treatments;
+    }
+
+    public void setTreatments(List<MedicalTreatmentEntity> treatments) {
+        this.treatments = treatments;
+    }
+
 
 }

@@ -1,45 +1,32 @@
-package com.jpacourse.persistence.entity;
+package com.jpacourse.dto;
 
-import javax.persistence.*;
+import com.jpacourse.persistence.entity.AddressEntity;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "PATIENT")
-public class PatientEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PatientTO implements Serializable {
     private Long id;
 
-    @Column(nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
     private String telephoneNumber;
 
     private String email;
 
-    @Column(nullable = false)
     private String patientNumber;
 
-    @Column(nullable = false)
     private LocalDate dateOfBirth;
 
-    @Column(nullable = false)
-    private Boolean Vip;
-
-    @OneToOne
-    @JoinColumn(name = "address_id", nullable = false) // Relacja jednostronna ze strony dziecka z address
     private AddressEntity patientAddress;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    // Relacja dwustronna z visit
-    private List<VisitEntity> visits = new ArrayList<>();
+    private List<VisitTOpatient> visits = new ArrayList<>();
+
+    private Boolean Vip;
 
     public Long getId() {
         return id;
@@ -105,11 +92,11 @@ public class PatientEntity {
         this.patientAddress = patientAddress;
     }
 
-    public List<VisitEntity> getVisits() {
+    public List<VisitTOpatient> getVisits() {
         return visits;
     }
 
-    public void setVisits(List<VisitEntity> visits) {
+    public void setVisits(List<VisitTOpatient> visits) {
         this.visits = visits;
     }
 
@@ -120,4 +107,5 @@ public class PatientEntity {
     public void setVip(Boolean vip) {
         Vip = vip;
     }
+
 }
