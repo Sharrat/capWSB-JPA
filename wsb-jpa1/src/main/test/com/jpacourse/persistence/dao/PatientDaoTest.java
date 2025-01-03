@@ -44,9 +44,8 @@ class PatientDaoTest {
         assertThat(result.getPatient()).isEqualTo(patient);
         assertThat(result.getDoctor()).isEqualTo(doctor);
         assertThat(result.getTime()).isEqualTo(DateTime);
+        assertThat(patient.getVisits().contains(result)).isTrue();
         assertThat(patient.getVisits().size()).isEqualTo(VisitsSize + 1);
         assertThat(result.getDescription()).isEqualTo(description);
-        PatientEntity patientAfter = patientDao.findOne(1L);
-        assertThat(patientAfter.getVisits().contains(result)).isTrue();
     }
 }
