@@ -11,6 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,11 +27,12 @@ class PatientDaoTest {
     private DoctorDao doctorDao;
 
     @Test
-    public void testShouldCorrectlyCreateVisit() {
+    public void testShouldCorrectlyCreateVisitAndCascade() {
         //given
         DoctorEntity doctor = doctorDao.findOne(1L);
         assertThat(doctor).isNotNull();
         PatientEntity patient = patientDao.findOne(1L);
+
         assertThat(patient).isNotNull();
         LocalDateTime DateTime = LocalDateTime.now();
         String description = "Description";
@@ -43,5 +46,7 @@ class PatientDaoTest {
         assertThat(result.getTime()).isEqualTo(DateTime);
         assertThat(patient.getVisits().size()).isEqualTo(VisitsSize + 1);
         assertThat(result.getDescription()).isEqualTo(description);
+        PatientEntity patientAfter = patientDao.findOne(1L);
+        assertThat(patientAfter.getVisits().contains(result)).isTrue();
     }
 }
