@@ -32,7 +32,6 @@ class PatientDaoTest {
         DoctorEntity doctor = doctorDao.findOne(1L);
         assertThat(doctor).isNotNull();
         PatientEntity patient = patientDao.findOne(1L);
-
         assertThat(patient).isNotNull();
         LocalDateTime DateTime = LocalDateTime.now();
         String description = "Description";
