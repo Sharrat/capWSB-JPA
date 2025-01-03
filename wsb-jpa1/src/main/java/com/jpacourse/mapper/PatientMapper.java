@@ -2,7 +2,6 @@ package com.jpacourse.mapper;
 
 import com.jpacourse.dto.PatientTO;
 import com.jpacourse.persistence.entity.PatientEntity;
-import com.jpacourse.persistence.entity.VisitEntity;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ public final class PatientMapper {
         patientEntity.setPatientNumber(patientTO.getPatientNumber());
         patientEntity.setDateOfBirth(patientTO.getDateOfBirth());
         patientEntity.setPatientAddress(patientTO.getPatientAddress());
-        patientEntity.setVisits(new ArrayList<VisitEntity>());
+        patientEntity.setVisits(new ArrayList<>());
         patientEntity.setVip(patientTO.isVip());
         return patientEntity;
     }

@@ -50,7 +50,7 @@ public final class VisitMapper {
         visit.setDoctor(doctor);
         visit.setDescription(description);
         visit.setTime(time);
-        visit.setTreatments(new ArrayList<MedicalTreatmentEntity>());
+        visit.setTreatments(new ArrayList<>());
 
         return visit;
     }
