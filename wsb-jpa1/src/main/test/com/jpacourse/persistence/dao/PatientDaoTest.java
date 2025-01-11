@@ -1,6 +1,8 @@
 package com.jpacourse.persistence.dao;
 
+import com.jpacourse.persistence.entity.DoctorEntity;
 import com.jpacourse.persistence.entity.PatientEntity;
+import com.jpacourse.persistence.entity.VisitEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -24,6 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class PatientDaoTest {
     @Autowired
     private PatientDao patientDao;
+
+    @Autowired
+    private DoctorDao doctorDao;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -42,6 +48,29 @@ class PatientDaoTest {
                 .isNotEmpty()
                 .hasSize(3)  // Changed from 4 to 3 to match our data
                 .allMatch(p -> p.getLastName().equals(lastName));
+    }
+
+    @Test
+    @Transactional
+    public void testShouldCorrectlyCreateVisitAndCascade() {
+        //given
+        DoctorEntity doctor = doctorDao.findOne(1L);
+        assertThat(doctor).isNotNull();
+        PatientEntity patient = patientDao.findOne(1L);
+        assertThat(patient).isNotNull();
+        LocalDateTime DateTime = LocalDateTime.now();
+        String description = "Description";
+        int VisitsSize = patient.getVisits().size();
+        //when
+        VisitEntity result = patientDao.createVisit(1L, 1L, DateTime, description);
+        //then
+        assertThat(result).isNotNull();
+        assertThat(result.getPatient()).isEqualTo(patient);
+        assertThat(result.getDoctor()).isEqualTo(doctor);
+        assertThat(result.getTime()).isEqualTo(DateTime);
+        assertThat(patient.getVisits().contains(result)).isTrue();
+        assertThat(patient.getVisits().size()).isEqualTo(VisitsSize + 1);
+        assertThat(result.getDescription()).isEqualTo(description);
     }
 
     @Test
