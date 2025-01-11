@@ -105,7 +105,7 @@ class PatientDaoTest {
     @Test
     public void testOptimisticLocking() throws InterruptedException {
         // given
-        Long patientId = 1L;
+        Long patientId = 2L;
         CountDownLatch latch = new CountDownLatch(1);
         ExecutorService executor = Executors.newFixedThreadPool(2);
 

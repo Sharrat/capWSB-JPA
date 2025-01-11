@@ -125,7 +125,7 @@ public class PatientServiceTest {
         assertThat(patient.getPatientNumber()).isEqualTo("123");
         assertThat(patient.getDateOfBirth()).isEqualTo(LocalDate.of(1996, 12, 12));
         assertThat(patient.isVip()).isTrue();
-        assertThat(patient.getHeight()).isEqualTo(185);
+        assertThat(patient.getHeight()).isEqualTo(170);
 
         // Weryfikacja adresu pacjenta
         AddressEntity addressReturned = patient.getPatientAddress();
