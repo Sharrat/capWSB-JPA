@@ -60,3 +60,38 @@ insert into medical_treatment (id, description, type, visit_id)
 values (4, 'Vision Screening', 'USG', 4);
 insert into medical_treatment (id, description, type, visit_id)
 values (5, 'Dermatological Examination', 'RTG', 5);
+
+-- Nowe adresy dla nowych pacjentów
+insert into address (id, address_line1, address_line2, city, postal_code)
+values (6, 'Street 6', 'Apt 6', 'city6', '67-080');
+insert into address (id, address_line1, address_line2, city, postal_code)
+values (7, 'Street 7', 'Apt 7', 'city7', '68-090');
+insert into address (id, address_line1, address_line2, city, postal_code)
+values (8, 'Street 8', 'Apt 8', 'city8', '69-100');
+
+-- Nowi pacjenci z tym samym nazwiskiem ale różnym wzrostem
+insert into patient (id, date_of_birth, email, first_name, last_name, patient_number, telephone_number, address_id, vip, version, height)
+values (6, to_date('1980-01-01', 'yyyy-mm-dd'), 'james.smith@gmail.com', 'James', 'Smith', '128', '623456789', 6, false, 0, 175);
+insert into patient (id, date_of_birth, email, first_name, last_name, patient_number, telephone_number, address_id, vip, version, height)
+values (7, to_date('1982-02-02', 'yyyy-mm-dd'), 'mary.smith@gmail.com', 'Mary', 'Smith', '129', '723456789', 7, true, 0, 165);
+insert into patient (id, date_of_birth, email, first_name, last_name, patient_number, telephone_number, address_id, vip, version, height)
+values (8, to_date('1984-03-03', 'yyyy-mm-dd'), 'robert.smith@gmail.com', 'Robert', 'Smith', '130', '823456789', 8, false, 0, 180);
+
+-- Aktualizacja starych pacjentów bez wzrostu
+update patient set height = 170, version = 0 where id = 1;
+update patient set height = 165, version = 0 where id = 2;
+update patient set height = 175, version = 0 where id = 3;
+update patient set height = 168, version = 0 where id = 4;
+update patient set height = 182, version = 0 where id = 5;
+
+-- Dodajemy kilka nowych wizyt
+insert into visit (id, description, time, patient_id, doctor_id)
+values (6, 'Follow-up', to_timestamp('2024-11-15 10:00:00', 'yyyy-mm-dd hh24:mi:ss'), 1, 1);
+insert into visit (id, description, time, patient_id, doctor_id)
+values (7, 'Annual Check', to_timestamp('2024-12-20 14:30:00', 'yyyy-mm-dd hh24:mi:ss'), 1, 2);
+insert into visit (id, description, time, patient_id, doctor_id)
+values (8, 'Emergency', to_timestamp('2024-12-25 09:15:00', 'yyyy-mm-dd hh24:mi:ss'), 1, 3);
+insert into visit (id, description, time, patient_id, doctor_id)
+values (9, 'Consultation', to_timestamp('2024-11-10 11:00:00', 'yyyy-mm-dd hh24:mi:ss'), 2, 1);
+insert into visit (id, description, time, patient_id, doctor_id)
+values (10, 'Follow-up', to_timestamp('2024-11-25 15:45:00', 'yyyy-mm-dd hh24:mi:ss'), 2, 1);

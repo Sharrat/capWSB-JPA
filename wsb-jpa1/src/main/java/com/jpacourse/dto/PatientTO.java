@@ -28,6 +28,8 @@ public class PatientTO implements Serializable {
 
     private Boolean Vip;
 
+    private Integer height;
+
     public Long getId() {
         return id;
     }
@@ -108,4 +110,11 @@ public class PatientTO implements Serializable {
         Vip = vip;
     }
 
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
 }

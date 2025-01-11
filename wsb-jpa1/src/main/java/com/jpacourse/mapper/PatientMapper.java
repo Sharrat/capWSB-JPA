@@ -22,6 +22,7 @@ public final class PatientMapper {
         patientTO.setPatientAddress(patientEntity.getPatientAddress());
         patientTO.setVisits(VisitMapper.mapToTOpatientList(patientEntity.getVisits()));
         patientTO.setVip(patientEntity.isVip());
+        patientTO.setHeight(patientEntity.getHeight());
 
         return patientTO;
     }
@@ -41,6 +42,7 @@ public final class PatientMapper {
         patientEntity.setPatientAddress(patientTO.getPatientAddress());
         patientEntity.setVisits(new ArrayList<>());
         patientEntity.setVip(patientTO.isVip());
+        patientEntity.setHeight(patientTO.getHeight());
         return patientEntity;
     }
 }

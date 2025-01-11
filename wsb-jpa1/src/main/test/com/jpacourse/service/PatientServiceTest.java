@@ -77,19 +77,23 @@ public class PatientServiceTest {
         doctor.setFirstName("Adam");
         doctor.setLastName("Nych");
 
-        // Mock danych wizyty
-        VisitEntity visit = new VisitEntity();
-        visit.setId(1L);
-        visit.setDescription("Checkup");
-        visit.setTime(LocalDateTime.of(2024, 6, 24, 10, 0));
-        visit.setDoctor(doctor);
+        // Mock danych wizyt - teraz tworzymy 4 wizyty
+        List<VisitEntity> visits = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            VisitEntity visit = new VisitEntity();
+            visit.setId((long) (i + 1));
+            visit.setDescription("Visit " + (i + 1));
+            visit.setTime(LocalDateTime.of(2024, 6, 24 + i, 10, 0));
+            visit.setDoctor(doctor);
 
-        // Mock danych zabiegów medycznych
-        MedicalTreatmentEntity treatment = new MedicalTreatmentEntity();
-        treatment.setId(1L);
-        treatment.setDescription("Basic Ultrasound");
-        treatment.setType(TreatmentType.USG);
-        visit.setTreatments(List.of(treatment));
+            MedicalTreatmentEntity treatment = new MedicalTreatmentEntity();
+            treatment.setId((long) (i + 1));
+            treatment.setDescription("Treatment " + (i + 1));
+            treatment.setType(TreatmentType.USG);
+            visit.setTreatments(List.of(treatment));
+
+            visits.add(visit);
+        }
 
         // Mock danych pacjenta
         PatientEntity patientEntity = new PatientEntity();
@@ -101,8 +105,9 @@ public class PatientServiceTest {
         patientEntity.setPatientNumber("123");
         patientEntity.setDateOfBirth(LocalDate.of(1996, 12, 12));
         patientEntity.setPatientAddress(address);
-        patientEntity.setVisits(List.of(visit));
+        patientEntity.setVisits(visits);
         patientEntity.setVip(true);
+        patientEntity.setHeight(170);  // Added height
 
         // Mock zachowania Dao
         when(patientDao.findOne(patientId)).thenReturn(patientEntity);
@@ -120,6 +125,7 @@ public class PatientServiceTest {
         assertThat(patient.getPatientNumber()).isEqualTo("123");
         assertThat(patient.getDateOfBirth()).isEqualTo(LocalDate.of(1996, 12, 12));
         assertThat(patient.isVip()).isTrue();
+        assertThat(patient.getHeight()).isEqualTo(185);  // Added height assertion
 
         // Weryfikacja adresu pacjenta
         AddressEntity addressReturned = patient.getPatientAddress();
@@ -130,15 +136,32 @@ public class PatientServiceTest {
         assertThat(addressReturned.getCity()).isEqualTo("city");
         assertThat(addressReturned.getPostalCode()).isEqualTo("62-030");
 
-        // Weryfikacja wizyt
+        // Weryfikacja wizyt - teraz sprawdzamy 4 wizyty
         assertThat(patient.getVisits()).isNotEmpty();
-        assertThat(patient.getVisits()).hasSize(1);
+        assertThat(patient.getVisits()).hasSize(4);
 
-        VisitTOpatient visitReturned = patient.getVisits().get(0);
-        assertThat(visitReturned.getId()).isEqualTo(1L);
-        assertThat(visitReturned.getTime()).isEqualTo(LocalDateTime.of(2024, 6, 24, 10, 0));
-        assertThat(visitReturned.getDoctorFirstName()).isEqualTo("Adam");
-        assertThat(visitReturned.getDoctorLastName()).isEqualTo("Nych");
-        assertThat(visitReturned.getTreatmentTypes()).containsExactly("USG");
+        // Sprawdzamy pierwszą wizytę szczegółowo
+        VisitTOpatient firstVisit = patient.getVisits().get(0);
+        assertThat(firstVisit.getId()).isEqualTo(1L);
+        assertThat(firstVisit.getDoctorFirstName()).isEqualTo("Adam");
+        assertThat(firstVisit.getDoctorLastName()).isEqualTo("Nych");
+        assertThat(firstVisit.getTreatmentTypes()).containsExactly("USG");
+    }
+
+    @Test
+    public void testShouldFindVisitsByPatientId() {
+        // given
+        Long patientId = 1L;
+
+        // when
+        List<VisitTOpatient> visits = patientService.findVisitsByPatientId(patientId);
+
+        // then
+        assertThat(visits).isNotNull()
+                .hasSize(4)
+                .allMatch(v -> v.getId() != null)
+                .allMatch(v -> v.getTime() != null)
+                .allMatch(v -> v.getDoctorFirstName() != null)
+                .allMatch(v -> v.getDoctorLastName() != null);
     }
 }

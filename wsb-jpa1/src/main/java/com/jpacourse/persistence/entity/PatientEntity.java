@@ -13,6 +13,9 @@ public class PatientEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Long version;
+
     @Column(nullable = false)
     private String firstName;
 
@@ -32,6 +35,9 @@ public class PatientEntity {
 
     @Column(nullable = false)
     private Boolean Vip;
+
+    @Column()
+    private Integer height; // w centymetrach
 
     @OneToOne
     @JoinColumn(name = "address_id", nullable = false) // Relacja jednostronna ze strony dziecka z address
@@ -119,5 +125,21 @@ public class PatientEntity {
 
     public void setVip(Boolean vip) {
         Vip = vip;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
     }
 }
