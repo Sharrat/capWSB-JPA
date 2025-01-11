@@ -107,6 +107,7 @@ public class PatientServiceTest {
         patientEntity.setPatientAddress(address);
         patientEntity.setVisits(visits);
         patientEntity.setVip(true);
+        patientEntity.setHeight(170);  // Added height
 
         // Mock zachowania Dao
         when(patientDao.findOne(patientId)).thenReturn(patientEntity);
@@ -124,6 +125,7 @@ public class PatientServiceTest {
         assertThat(patient.getPatientNumber()).isEqualTo("123");
         assertThat(patient.getDateOfBirth()).isEqualTo(LocalDate.of(1996, 12, 12));
         assertThat(patient.isVip()).isTrue();
+        assertThat(patient.getHeight()).isEqualTo(185);  // Added height assertion
 
         // Weryfikacja adresu pacjenta
         AddressEntity addressReturned = patient.getPatientAddress();
