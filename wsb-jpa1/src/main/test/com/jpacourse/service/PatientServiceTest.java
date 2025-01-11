@@ -156,7 +156,7 @@ public class PatientServiceTest {
 
         // then
         assertThat(visits).isNotNull()
-                .hasSize(4) // Patient 1 has 4 visits in our test data
+                .hasSize(4)
                 .allMatch(v -> v.getId() != null)
                 .allMatch(v -> v.getTime() != null)
                 .allMatch(v -> v.getDoctorFirstName() != null)

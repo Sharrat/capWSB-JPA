@@ -46,7 +46,7 @@ class PatientDaoTest {
         // then
         assertThat(patients)
                 .isNotEmpty()
-                .hasSize(3)  // Changed from 4 to 3 to match our data
+                .hasSize(3)
                 .allMatch(p -> p.getLastName().equals(lastName));
     }
 
@@ -85,8 +85,6 @@ class PatientDaoTest {
         // then
         assertThat(patients).isNotEmpty()
                 .allMatch(p -> p.getVisits().size() > visitThreshold);
-
-        // Patient with ID 1 should be in results (has 4 visits)
         assertThat(patients).anyMatch(p -> p.getId().equals(1L));
     }
 
@@ -118,7 +116,7 @@ class PatientDaoTest {
                 entityManager.clear();
                 PatientEntity patient1 = patientDao.findOne(patientId);
                 patient1.setHeight(190);
-                latch.await(); // wait for the second transaction to start
+                latch.await();
                 assertThrows(ObjectOptimisticLockingFailureException.class,
                         () -> patientDao.update(patient1));
             } catch (InterruptedException e) {
@@ -132,14 +130,14 @@ class PatientDaoTest {
                 PatientEntity patient2 = patientDao.findOne(patientId);
                 patient2.setHeight(185);
                 patientDao.update(patient2);
-                latch.countDown(); // allow first transaction to continue
+                latch.countDown();
             } catch (Exception e) {
                 latch.countDown();
             }
         });
 
         // then
-        Thread.sleep(2000); // wait for both transactions to complete
+        Thread.sleep(2000);
         executor.shutdown();
 
         PatientEntity finalPatient = patientDao.findOne(patientId);
