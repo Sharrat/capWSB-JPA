@@ -103,7 +103,6 @@ class PatientDaoTest {
     }
 
     @Test
-    @Transactional
     public void testOptimisticLocking() throws InterruptedException {
         // given
         Long patientId = 1L;
